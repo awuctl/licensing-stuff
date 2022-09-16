@@ -64,20 +64,20 @@ if __name__ == '__main__':
 
     sp = p.add_subparsers(title='Utils', dest='util', required=True)
 
-    sp_content_id = sp.add_parser('content-id')
-    sp_content_id.add_argument('product',  help='Product name')
-    sp_content_id.add_argument('publisher', help='Publisher string (eg. 8wekyb3d8bbwe)')
-    sp_content_id.add_argument('platform',  help='Platform name (eg. win32, uwp)')
+    sp_ci = sp.add_parser('content-id')
+    sp_ci.add_argument('product',  help='Product name')
+    sp_ci.add_argument('publisher', help='Publisher string (eg. 8wekyb3d8bbwe)')
+    sp_ci.add_argument('platform',  help='Platform name (eg. win32, uwp)')
 
-    sp_query_content = sp.add_parser('query-content')
-    sp_query_content.add_argument('content_id')
-    sp_query_content.add_argument('-market', help='Market code (US/IR/PL/RU/...)', nargs='?')
-    sp_query_content.add_argument('-locale', help='Language for the query (en-US, fa-IR, pl-PL, ru-RU, ...)', nargs='?')
+    sp_qc = sp.add_parser('query-content')
+    sp_qc.add_argument('content_id')
+    sp_qc.add_argument('-market', help='Market code (US/IR/PL/RU/...)', nargs='?')
+    sp_qc.add_argument('-locale', help='Language for the query (en-US, fa-IR, pl-PL, ru-RU, ...)', nargs='?')
 
-    sp_query_pkeyconfig = sp.add_parser('query-pkeyconfig')
-    sp_query_pkeyconfig.add_argument('pkeyconfig', type=argparse.FileType(mode='r'))
-    sp_query_pkeyconfig.add_argument('-market', help='Market code (US/IR/PL/RU/...)', nargs='?')
-    sp_query_pkeyconfig.add_argument('-locale', help='Language for the query (en-US, fa-IR, pl-PL, ru-RU, ...)', nargs='?')
+    sp_qp = sp.add_parser('query-pkeyconfig')
+    sp_qp.add_argument('pkeyconfig', type=argparse.FileType(mode='r'))
+    sp_qp.add_argument('-market', help='Market code (US/IR/PL/RU/...)', nargs='?')
+    sp_qp.add_argument('-locale', help='Language for the query (en-US, fa-IR, pl-PL, ru-RU, ...)', nargs='?')
 
     args = p.parse_args()
 
