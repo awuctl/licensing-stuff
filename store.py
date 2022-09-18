@@ -37,13 +37,13 @@ class StoreQuery:
         obj_response = json.loads(store_r)
 
         return (obj_response, StoreQuery.get_error(obj_response))
-    
+
     @staticmethod
     def get_error(response: object) -> Tuple[int, str]:
 
         if not isinstance(response, list):
             response = [response]
-        
+
         for r in response:
             if 'Path' in r:
                 if r['Path'].startswith('/errorinfo'):
@@ -81,57 +81,53 @@ if __name__ == '__main__':
 
     args = p.parse_args()
 
-    if args.util == 'content-id':
-        print(content_id(args.product, args.publisher, args.platform))
-        exit()
-    
-    if args.util == 'query-content':
+    match args.util:
+        case 'content-id':
+            print(content_id(args.product, args.publisher, args.platform))
 
-        # build arguments
-        kwords = {'content_id': args.content_id}
-        if args.market is not None:
-            kwords['market'] = args.market
-        if args.locale is not None:
-            kwords['locale'] = args.locale
-        
-        print(StoreQuery.query_store(**kwords)[0])
-        exit()
-    
-    if args.util == 'query-pkeyconfig':
+        case 'query-content':
+            # build arguments
+            kwords = {'content_id': args.content_id}
+            if args.market is not None:
+                kwords['market'] = args.market
+            if args.locale is not None:
+                kwords['locale'] = args.locale
 
-        from skuidmap import sku_id_map
-        # invert to map from name to id:
-        sku_id_map = { k : v for v, k in sku_id_map.items() }
+            print(StoreQuery.query_store(**kwords)[0])
 
-        alg2009 = 'msft:rm/algorithm/pkey/2009'
-        pkc = PKeyConfig(ET.fromstring(args.pkeyconfig.read()))
+        case 'query-pkeyconfig':
+            from skuidmap import sku_id_map
+            # invert to map from name to id:
+            sku_id_map = { k : v for v, k in sku_id_map.items() }
 
-        confs = filter(
-            lambda c: c.group_id != 999999 # placeholders
-                      and c.edition_id in sku_id_map.keys() # unknown SKUs, multiple SKU groups
-                      and 'Server' not in c.edition_id, # filter out Server SKUs (filters out ServerRdsh too, but it's not in the Store anyway)
-                      #and 'EnterpriseS' in c.edition_id,
-            pkc.configs
-        )
+            alg2009 = 'msft:rm/algorithm/pkey/2009'
+            pkc = PKeyConfig(ET.fromstring(args.pkeyconfig.read()))
 
-        sess = requests.session()
-        for c in confs:
-            for r in pkc.ranges_for_config(c):
-                part_num = r.part_number.split(':')[0][-9:]
-                ident = content_id(f'Microsoft.Windows.{sku_id_map[c.edition_id]}.{part_num}', '8wekyb3d8bbwe', 'win32')
-                
-                # build arguments
-                kwords = {'content_id': ident, 'session': sess}
-                if args.market is not None:
-                    kwords['market'] = args.market
-                if args.locale is not None:
-                    kwords['locale'] = args.locale
-                    kwords['catalog_locale'] = args.locale
-                
-                (res, (code, errstr)) = StoreQuery.query_store(**kwords)
-                if code != 0:
-                    print(f"[ ] {c.edition_id:>24} ({c.key_type:>14}, {part_num:<9}) -> {errstr}")
-                else:
-                    prod_info = next((x for x in res if 'V3.ProductDetails' in x['Payload']['$type']))['Payload']
-                    print(f"[x] {c.edition_id:>24} ({c.key_type:>14}, {part_num:<9}) -> {prod_info['Title']}")
-        exit()
+            confs = filter(
+                lambda c: c.group_id != 999999 # placeholders
+                        and c.edition_id in sku_id_map.keys() # unknown SKUs, multiple SKU groups
+                        and 'Server' not in c.edition_id, # filter out Server SKUs (filters out ServerRdsh too, but it's not in the Store anyway)
+                        #and 'EnterpriseS' in c.edition_id,
+                pkc.configs
+            )
+
+            sess = requests.session()
+            for c in confs:
+                for r in pkc.ranges_for_config(c):
+                    part_num = r.part_number.split(':')[0][-9:]
+                    ident = content_id(f'Microsoft.Windows.{sku_id_map[c.edition_id]}.{part_num}', '8wekyb3d8bbwe', 'win32')
+
+                    # build arguments
+                    kwords = {'content_id': ident, 'session': sess}
+                    if args.market is not None:
+                        kwords['market'] = args.market
+                    if args.locale is not None:
+                        kwords['locale'] = args.locale
+                        kwords['catalog_locale'] = args.locale
+
+                    (res, (code, errstr)) = StoreQuery.query_store(**kwords)
+                    if code != 0:
+                        print(f"[ ] {c.edition_id:>24} ({c.key_type:>14}, {part_num:<9}) -> {errstr}")
+                    else:
+                        prod_info = next((x for x in res if 'V3.ProductDetails' in x['Payload']['$type']))['Payload']
+                        print(f"[x] {c.edition_id:>24} ({c.key_type:>14}, {part_num:<9}) -> {prod_info['Title']}")

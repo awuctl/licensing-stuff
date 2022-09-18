@@ -25,17 +25,16 @@ if __name__ == '__main__':
 
     configs = filter(lambda x: pkc.pubkey_for_group(x.group_id).algorithm == alg2009 and x.group_id != 999999, pkc.configs)
 
-    if args.format == 'text':
+    match args.format:
+        case 'text':
+            for c in configs:
+                print(f'C: {c.desc}\n   (edition: {c.edition_id}, group: {c.group_id}, type: {c.key_type}, act_id: {c.config_id})')
+                for range in pkc.ranges_for_config(c):
+                    print(f'R: {range.start:>10}-{range.end:>10} [{range.part_number}]: {str(ProductKeyEncoder(c.group_id, range.start, 0, 0))}')
+                print()
 
-        for c in configs:
-            print(f'C: {c.desc}\n   (edition: {c.edition_id}, group: {c.group_id}, type: {c.key_type}, act_id: {c.config_id})')
-            for range in pkc.ranges_for_config(c):
-                print(f'R: {range.start:>10}-{range.end:>10} [{range.part_number}]: {str(ProductKeyEncoder(c.group_id, range.start, 0, 0))}')
-            print()
-    
-    elif args.format == 'json':
-
-        print(json.dumps([{
+        case 'json':
+            print(json.dumps([{
                 'actid': config.config_id,
                 'desc': config.desc,
                 'group': config.group_id,

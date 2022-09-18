@@ -227,114 +227,115 @@ if __name__ == '__main__':
     import argparse
     import re
 
-    main_parser = argparse.ArgumentParser(
+    p = argparse.ArgumentParser(
         'keycutter',
         description='generate Windows product keys (2009 algorithm).',
         allow_abbrev=True
     )
 
-    subparsers = main_parser.add_subparsers(title='Commands', dest='mode')
-    encode_parser = subparsers.add_parser('encode')
-    encode_parser.add_argument('group',    type=lambda i: int(i,0), help='Group reference ID')
-    encode_parser.add_argument('serial',   type=lambda i: int(i,0), help='Serial number')
-    encode_parser.add_argument('security', type=lambda i: int(i,0), help='Security value')
-    encode_parser.add_argument('-u',       type=lambda i: int(i,0), help='Upgrade bit', dest='upgrade', default=0)
-    encode_parser.add_argument('-c',       type=lambda i: int(i,0), help='truncated 10-bit CRC, 0x400 for automatic', dest='checksum', default='0x400')
-    encode_parser.add_argument('-e',       type=lambda i: int(i,0), help='Extra bit', dest='extra', default=0)
+    sp = p.add_subparsers(title='Commands', dest='mode')
+    enc_p = sp.add_parser('encode')
+    enc_p.add_argument('group',    type=lambda i: int(i,0), help='Group reference ID')
+    enc_p.add_argument('serial',   type=lambda i: int(i,0), help='Serial number')
+    enc_p.add_argument('security', type=lambda i: int(i,0), help='Security value')
+    enc_p.add_argument('-u',       type=lambda i: int(i,0), help='Upgrade bit', dest='upgrade', default=0)
+    enc_p.add_argument('-c',       type=lambda i: int(i,0), help='truncated 10-bit CRC, 0x400 for automatic', dest='checksum', default='0x400')
+    enc_p.add_argument('-e',       type=lambda i: int(i,0), help='Extra bit', dest='extra', default=0)
 
-    decode_parser = subparsers.add_parser('decode')
-    decode_parser.add_argument('key', type=str)
-    decode_parser.add_argument('-output', choices=['parametric', 'raw', 'rawhex'], default='parametric')
+    dec_p = sp.add_parser('decode')
+    dec_p.add_argument('key', type=str)
+    dec_p.add_argument('-output', choices=['parametric', 'raw', 'rawhex'], default='parametric')
 
-    template_parser = subparsers.add_parser('template')
-    template_parser.add_argument('group',    type=lambda i: int(i,0), help='Group reference ID')
-    template_parser.add_argument('template', type=str,                help='Key template')
-    template_parser.add_argument('-u',       type=lambda i: int(i,0), help='Upgrade bit', dest='upgrade')
-    template_parser.add_argument('-e',       type=lambda i: int(i,0), help='Extra bit',   dest='extra')
+    tmpl_p = sp.add_parser('template')
+    tmpl_p.add_argument('group',    type=lambda i: int(i,0), help='Group reference ID')
+    tmpl_p.add_argument('template', type=str,                help='Key template')
+    tmpl_p.add_argument('-u',       type=lambda i: int(i,0), help='Upgrade bit', dest='upgrade')
+    tmpl_p.add_argument('-e',       type=lambda i: int(i,0), help='Extra bit',   dest='extra')
 
-    arg = main_parser.parse_args()
+    arg = p.parse_args()
 
-    if arg.mode == 'decode':
+    match arg.mode:
+        case 'decode':
+            # Verify if 5x5
+            alpha = ProductKeyDecoder.ALPHABET
+            if not re.match(f'(?:[{alpha+"N"}]{{5}}-){{4}}[{alpha+"N"}]{{4}}[{alpha}]', arg.key):
+                print('Invalid product key')
+                exit(1)
 
-        # Verify if 5x5
+            keyi = ProductKeyDecoder(arg.key)
 
-        alpha = ProductKeyDecoder.ALPHABET
-        if not re.match(f'(?:[{alpha+"N"}]{{5}}-){{4}}[{alpha+"N"}]{{4}}[{alpha}]', arg.key):
-            print('Invalid product key')
-            exit(1)
+            match arg.output:
+                case 'parametric':
+                    print('\nPKey     : [%s]\n        -> [%032x]\n' % (str(keyi), int(keyi)))
+                    print('            0xfffff')
+                    print('Group    : [0x%05x]\n' % keyi.group)
+                    print('            0x3fffffff')
+                    print('Serial   : [0x%08x]\n' % keyi.serial)
+                    print('            0x1FFFFFFFFFFFFF')
+                    print('Security : [0x%014x]\n' % keyi.security)
+                    print('            0x3FF')
+                    print('Checksum : [0x%03x]\n' % keyi.checksum)
+                    print('            0x1')
+                    print('Upgrade  : [0x%01x]\n' % keyi.upgrade)
+                    print('            0x1')
+                    print('Extra    : [0x%01x]\n' % keyi.extra)
+                case 'raw':
+                    print(*[str(keyi),
+                        int(keyi),
+                        keyi.group,
+                        keyi.serial,
+                        keyi.security,
+                        keyi.upgrade,
+                        keyi.checksum,
+                        keyi.extra],
+                        sep='\n'
+                    )
+                case 'rawhex':
+                    print(*[str(keyi),
+                        hex(int(keyi)),
+                        hex(keyi.group),
+                        hex(keyi.serial),
+                        hex(keyi.security),
+                        hex(keyi.upgrade),
+                        hex(keyi.checksum),
+                        hex(keyi.extra)],
+                        sep='\n'
+                    )
+                
+        case 'encode':
+            keyi = ProductKeyEncoder(arg.group, arg.serial, arg.security, arg.upgrade, arg.checksum, arg.extra)
+            print(str(keyi))
+        case 'template':
+            NULL = 'NBBBB-BBBBB-BBBBB-BBBBB-BBBBB'
 
-        keyi = ProductKeyDecoder(arg.key)
+            def list_keys(gid: int, template: str):
 
-        if arg.output == 'parametric':
-            print('\nPKey     : [%s]\n        -> [%032x]\n' % (str(keyi), int(keyi)))
-            print('            0xfffff')
-            print('Group    : [0x%05x]\n' % keyi.group)
-            print('            0x3fffffff')
-            print('Serial   : [0x%08x]\n' % keyi.serial)
-            print('            0x1FFFFFFFFFFFFF')
-            print('Security : [0x%014x]\n' % keyi.security)
-            print('            0x3FF')
-            print('Checksum : [0x%03x]\n' % keyi.checksum)
-            print('            0x1')
-            print('Upgrade  : [0x%01x]\n' % keyi.upgrade)
-            print('            0x1')
-            print('Extra    : [0x%01x]\n' % keyi.extra)
-        elif arg.output == 'raw':
-            print(*[str(keyi),
-                    int(keyi),
-                    keyi.group,
-                    keyi.serial,
-                    keyi.security,
-                    keyi.upgrade,
-                    keyi.checksum,
-                    keyi.extra],
-                    sep='\n'
-                )
-        elif arg.output == 'rawhex':
-            print(*[str(keyi),
-                    hex(int(keyi)),
-                    hex(keyi.group),
-                    hex(keyi.serial),
-                    hex(keyi.security),
-                    hex(keyi.upgrade),
-                    hex(keyi.checksum),
-                    hex(keyi.extra)],
-                    sep='\n'
-                )
-    elif arg.mode == 'encode':
-        keyi = ProductKeyEncoder(arg.group, arg.serial, arg.security, arg.upgrade, arg.checksum, arg.extra)
-        print(str(keyi))
-    elif arg.mode == 'template':
-        NULL = 'NBBBB-BBBBB-BBBBB-BBBBB-BBBBB'
+                if len(template) > 21: # 18 meaningful digits
+                    raise Exception('Template too long')
 
-        def list_keys(gid: int, template: str):
+                template_key = ProductKeyDecoder(template + NULL[len(template):])
+                serial_iter = template_key.serial
 
-            if len(template) > 21: # 18 meaningful digits
-                raise Exception('Template too long')
+                # Find serial that will give a key that matches the template
+                while True:
 
-            template_key = ProductKeyDecoder(template + NULL[len(template):])
-            serial_iter = template_key.serial
+                    key = ProductKeyEncoder(
+                        gid,
+                        serial_iter,
+                        template_key.security,
+                        template_key.upgrade,
+                        extra=template_key.extra
+                    )
 
-            # Find serial that will give a key that matches the template
-            while True:
+                    serial_iter += 1
+                    if key.checksum != template_key.checksum:
+                        continue
 
-                key = ProductKeyEncoder(
-                    gid,
-                    serial_iter,
-                    template_key.security,
-                    template_key.upgrade,
-                    extra=template_key.extra
-                )
+                    # Usable serial numbers exhausted
+                    if str(key)[:len(template)] != template:
+                        break
 
-                serial_iter += 1
-                if key.checksum != template_key.checksum:
-                    continue
+                    print(str(key))
 
-                # Usable serial numbers exhausted
-                if str(key)[:len(template)] != template:
-                    break
-
-                print(str(key))
-
-        if 'N' in arg.template:
-            list_keys(arg.group, arg.template)
+            if 'N' in arg.template:
+                list_keys(arg.group, arg.template)
