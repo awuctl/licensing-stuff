@@ -93,7 +93,7 @@ if __name__ == '__main__':
             if args.locale is not None:
                 kwords['locale'] = args.locale
 
-            print(StoreQuery.query_store(**kwords)[0])
+            print(json.dumps(StoreQuery.query_store(**kwords)[0]))
 
         case 'query-pkeyconfig':
             from skuidmap import sku_id_map
@@ -103,11 +103,16 @@ if __name__ == '__main__':
             alg2009 = 'msft:rm/algorithm/pkey/2009'
             pkc = PKeyConfig(ET.fromstring(args.pkeyconfig.read()))
 
-            confs = filter(
+            """confs = filter(
                 lambda c: c.group_id != 999999 # placeholders
                         and c.edition_id in sku_id_map.keys() # unknown SKUs, multiple SKU groups
                         and 'Server' not in c.edition_id, # filter out Server SKUs (filters out ServerRdsh too, but it's not in the Store anyway)
                         #and 'EnterpriseS' in c.edition_id,
+                pkc.configs
+            )
+"""
+            confs = filter(
+                lambda c: c.group_id != 999999 and c.edition_id in sku_id_map.keys() and c.edition_id == 'ServerRdsh',
                 pkc.configs
             )
 
