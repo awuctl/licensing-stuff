@@ -6,6 +6,8 @@ The first tool I know of that was capable of decoding and encoding pkey2009 keys
 
 The keycutter tool was written looking at that patent, the KeyInfo tool and poking Windows a bit (a lot). No one bothered with keys for Office and Visual Studio but they work in pretty much exactly the same way.
 
+The tool can be used to make Windows, Office and Visual Studio keys. Visual Studio does this fully offline so no extra check beyond the validity of the key is done at all.
+
 ## Structure
 
 The key is just a huge 128-bit bitfield encoded in base24 (`BCDFGHJKMPQRTVWXY2346789`) where the `N` character's **position** signifies the least significant base24 word of the key.
