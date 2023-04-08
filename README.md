@@ -8,7 +8,7 @@ This is a bunch of tools I've used for some time to do morally questionable stuf
 
 This contains an implementation of the "`msft:rm/algorithm/pkey/2009`" product key algorithm. The tool gives you an API and a commandline tool to encode and decode product keys or find ones matching a specified template. The template function could be written to allow for an **almost** arbitrary key but I didn't have any use for it other than a few funny sets of keys so I never bothered.
 
-I'll dump a bit of info about product keys in this repo later.
+A bit of info about product keys [here](product-keys.md).
 
 ### pkeyconfig.py
 
@@ -20,7 +20,7 @@ This is a tool using `keycutter.py` and `pkeyconfig.py` that creates a plain tex
 
 ### skuidmap.py
 
-This is a lookup table between SKU IDs (edition IDs) and edition names. Most of this can be extracted from `winnt.h`, but some values are gone forever and `there are many holes. There are other sources for these but they require heavy machinery to dig out. I can elaborate on request.
+This is a lookup table between SKU IDs (edition IDs) and edition names. Most of this can be extracted from `winnt.h`, but some values are gone forever and there are many holes. There are other sources for these but they require heavy machinery to dig out. I can elaborate on request.
 
 ### store.py
 
