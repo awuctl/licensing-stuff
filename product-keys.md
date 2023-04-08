@@ -68,4 +68,4 @@ If you make photos of key stickers often, you can censor just the last 1.5 quint
 
 ### Cool templates
 
-The coolest template with the easiest-to-memorize (it's a fun exercise to write weird looking Windows keys from memory and look at the horror on people's faces when they actually fucking work) is undoubtedly `NBBBB-BBBBB-BBBBB-BBB` (`B` is the base24 equivalent of the value `0` and `N` on the first position also encodes a `0`), though there are a few other cool things you could write. `NYMPH-CRYPT-WHYTF-KKK` is one of these. When looking for words to fit in there remember the alphabet and that the `N` can only be used once.
+The coolest template with the easiest-to-memorize keys (it's a fun exercise to write weird looking Windows keys from memory and look at the horror on people's faces when they actually fucking work) is undoubtedly `NBBBB-BBBBB-BBBBB-BBB` (`B` is the base24 equivalent of the value `0` and `N` on the first position also encodes a `0`), though there are a few other cool things you could write. `NYMPH-CRYPT-WHYTF-KKK` is one of these. When looking for words to fit in there remember the alphabet and that the `N` can only be used once.
