@@ -53,3 +53,19 @@ NBBBB-BBBBB-BBBBB-BBB39-XKXR3
 NBBBB-BBBBB-BBBBB-BBB48-82QF3
 ```
 Which are all valid `Windows 10 Enterprise Volume:GVLK` keys. This is an artifact of the thing being a pretty simple encoding scheme for a bitfield. You simply iterate serial numbers with a given group ID and adjust the checksum until you match the template. This is pretty slow in Python so I recommend running this with either PyPy (the JIT makes it a lot faster, but still Python levels of performance) or asking me for the C version of it.
+
+## Fun stuff you can do with product keys
+
+### Tiny Disclaimer
+
+keycutter is not a keygen by any means. Generic keys are freely available from Microsoft (`product.ini`) and keys made by this tool have no more meaning than these.
+
+### Recovering partially censored product keys
+
+People sometimes post product keys online and only censor one or two quintets in the middle. As long as you know the most important values of the key (group, checksum, and at least parts of serial and security, all of which can be read from the label and the partial key), you can iterate over the "missing part" until the checksum is correct.
+
+If you make photos of key stickers often, you can censor just the last 1.5 quintets and you'll be safe against this.
+
+### Cool templates
+
+The coolest template with the easiest-to-memorize (it's a fun exercise to write weird looking Windows keys from memory and look at the horror on people's faces when they actually fucking work) is undoubtedly `NBBBB-BBBBB-BBBBB-BBB` (`B` is the base24 equivalent of the value `0` and `N` on the first position also encodes a `0`), though there are a few other cool things you could write. `NYMPH-CRYPT-WHYTF-KKK` is one of these. When looking for words to fit in there remember the alphabet and that the `N` can only be used once.
