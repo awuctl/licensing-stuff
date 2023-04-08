@@ -76,25 +76,25 @@ class PKeyConfig:
         self.ranges =  [parse_range(x)  for x in ranges]
         self.pubkeys = [parse_pubkey(x) for x in pubkeys]
 
-    # Find Configuration for a Group ID
     def config_for_group(self, group: int) -> Configuration:
+        """Find Configuration for a Group ID"""
         return next((x for x in self.configs if x.group_id == group))
 
-    # Find KeyRanges for a Group ID
     def ranges_for_group(self, group: int) -> List[KeyRange]:
+        """Find KeyRanges for a Group ID"""
         conf = self.config_for_group(group)
         return list((x for x in self.ranges if x.config_id == conf.config_id))
 
-    # Find KeyRanges for a Configuration
     def ranges_for_config(self, config: Configuration) -> List[KeyRange]:
+        """Find KeyRanges for a Configuration"""
         return list((x for x in self.ranges if x.config_id == config.config_id))
 
-    # Find the PublicKey info for a Group ID
     def pubkey_for_group(self, group: int) -> PublicKey:
+        """Find the PublicKey info for a Group ID"""
         return next((x for x in self.pubkeys if x.group_id == group))
 
-    # Find the Configuration, all KeyRanges and PublicKey for a Group ID
     def all_for_group(self, group: int) -> Tuple[Configuration, List[KeyRange], PublicKey]:
+        """Find the Configuration, all KeyRanges and PublicKey for a Group ID"""
         return (
             self.config_for_group(group),
             self.ranges_for_group(group),
