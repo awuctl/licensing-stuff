@@ -75,7 +75,7 @@ if __name__ == '__main__':
     sp_qc.add_argument('-locale', help='Language for the query (en-US, fa-IR, pl-PL, ru-RU, ...)', nargs='?')
 
     sp_qp = sp.add_parser('query-pkeyconfig')
-    sp_qp.add_argument('pkeyconfig', type=argparse.FileType(mode='r'))
+    sp_qp.add_argument('pkeyconfig', type=argparse.FileType(mode='r', encoding='utf-8'))
     sp_qp.add_argument('-market', help='Market code (US/IR/PL/RU/...)', nargs='?')
     sp_qp.add_argument('-locale', help='Language for the query (en-US, fa-IR, pl-PL, ru-RU, ...)', nargs='?')
 
@@ -107,6 +107,7 @@ if __name__ == '__main__':
                 lambda c: c.group_id != 999999 # placeholders
                         and c.edition_id in sku_id_map.keys() # unknown SKUs, multiple SKU groups
                         and 'Server' not in c.edition_id, # filter out Server SKUs (filters out ServerRdsh too, but it's not in the Store anyway)
+
                 pkc.configs
             )
 

@@ -13,7 +13,7 @@ if __name__ == '__main__':
         description='Create 2009 product keys for all ranges defined in a pkeyconfig'
     )
 
-    main_parser.add_argument('pkeyconfig', type=argparse.FileType('r'))
+    main_parser.add_argument('pkeyconfig', type=argparse.FileType('r', encoding='utf-8'))
     main_parser.add_argument('format', help='Output format', choices=['text', 'json'])
 
     args = main_parser.parse_args()
