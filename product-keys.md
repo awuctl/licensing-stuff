@@ -70,4 +70,10 @@ If you make photos of key stickers often, you can censor just the last 1.5 quint
 
 ### Cool templates
 
-The coolest template with the easiest-to-memorize keys (it's a fun exercise to write weird looking Windows keys from memory and look at the horror on people's faces when they actually fucking work) is undoubtedly `NBBBB-BBBBB-BBBBB-BBB` (`B` is the base24 equivalent of the value `0` and `N` on the first position also encodes a `0`), though there are a few other cool things you could write. `NYMPH-CRYPT-WHYTF-KKK` is one of these. When looking for words to fit in there remember the alphabet and that the `N` can only be used once.
+The coolest template with the easiest-to-memorize keys (it's a fun exercise to write weird looking Windows keys from memory and look at the horror on people's faces when they actually fucking work) is undoubtedly `NBBBB-BBBBB-BBBBB-BBB` (`B` is the base24 equivalent of the value `0` and `N` on the first position also encodes a `0`), though there are a few other cool things you could write. `NYMPH-CRYPT-WHYTF-KKK` and `BVYNG-GF2GT-PVXXY` are some of these. When looking for words to fit in there remember the alphabet and that the `N` can only be used once.
+
+### Funny key(s)
+
+It is common knowledge that Windows likes to break. Most commonly this is due to how terrible it is at validation - it's somewhat good at validating whether state is **technically valid** but absolutely incapable of detecting and acting on if it's actually **sane**. You can make it do anything by giving it the right file in the right format in the right place. It's like a living human organism the fucking thing - unfathomable complexity and great resilience but no mechanism to save it from itself.
+
+It is trivial to drive it insane - one of the many things it absolutely does not understand is null keys. Give Windows a key with the Group ID set to `0` and it will.. choose the edition at random.. What's better, it will choose a different edition depending on what **time and date** you install the key.
