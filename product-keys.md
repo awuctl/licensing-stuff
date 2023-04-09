@@ -77,3 +77,10 @@ The coolest template with the easiest-to-memorize keys (it's a fun exercise to w
 It is common knowledge that Windows likes to break. Most commonly this is due to how terrible it is at validation - it's somewhat good at validating whether state is **technically valid** but absolutely incapable of detecting and acting on if it's actually **sane**. You can make it do anything by giving it the right file in the right format in the right place. It's like a living human organism the fucking thing - unfathomable complexity and great resilience but no mechanism to save it from itself.
 
 It is trivial to drive it insane - one of the many things it absolutely does not understand is null keys. Give Windows a key with the Group ID set to `0` and it will.. choose the edition at random.. What's better, it will choose a different edition depending on what **time and date** you install the key.
+
+A few example funny keys:
+
+ - `NBBBB-BBBBB-BBBBB-BBBB4-3C3YB`
+ - `NBBBB-BBBBB-BBBBB-BBBGQ-JTQYB`
+ - `NBBBB-BBBBB-BBBBB-BBBVH-7QM7M`
+ - `NBBBB-BBBBB-BBBBB-BBBXJ-RXY7M`
