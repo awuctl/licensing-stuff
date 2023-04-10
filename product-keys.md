@@ -66,7 +66,7 @@ keycutter is not a keygen by any means. Generic keys are freely available from M
 
 People sometimes post product keys online and only censor one or two quintets in the middle. As long as you know the most important values of the key (group, checksum, and at least parts of serial and security, all of which can be read from the label and the partial key), you can iterate over the "missing part" until the checksum is correct.
 
-If you make photos of key stickers often, you can censor just the last 1.5 quintets and you'll be safe against this.
+If you make photos of key stickers often, you can censor just the first 1.5 quintets and you'll be safe against this.
 
 ### Cool templates
 
