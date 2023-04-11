@@ -100,5 +100,7 @@ These keys are as follows:
  - Qihoo:
     - `WCBQD-VN8PB-FH2RR-WPFCX-3RTKM` (RTM Core Retail)
     - `X9NV3-MCH4F-M3G24-2PKR2-BTDT3` (RTM Professional Retail)
+ - mstest:
+    - nothing interesting.
 
 Again, installing these will make your install BSOD on boot if appropriate licenses are present.
