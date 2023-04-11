@@ -10,7 +10,7 @@ The tool can be used to make Windows, Office and Visual Studio keys. Visual Stud
 
 ## Structure
 
-The key is just a huge 128-bit bitfield encoded in base24 (`BCDFGHJKMPQRTVWXY2346789`) where the `N` character's **position** signifies the least significant base24 word of the key.
+The key is just a huge "128-bit" (~114.68 bit capacity) bitfield encoded in base24 (`BCDFGHJKMPQRTVWXY2346789`) where the `N` character's **position** signifies the least significant base24 word of the key.
 
 The bitfield is made up of the following:
 
