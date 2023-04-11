@@ -84,3 +84,21 @@ A few example funny keys:
  - `NBBBB-BBBBB-BBBBB-BBBGQ-JTQYB`
  - `NBBBB-BBBBB-BBBBB-BBBVH-7QM7M`
  - `NBBBB-BBBBB-BBBBB-BBBXJ-RXY7M`
+
+## Fun things
+
+### _CountrySpecific Editions
+
+These fun editions of Windows have a neat little "feature" that locks them to a specific (Chinese) language pack. Installing a Pro-/CoreCountrySpecific key will effectively brick your device if the appropriate licenses for it are present in the system. This is also the case with so-called "partner keys".
+
+Partner keys can be found in various tools (the most fun one being `GatherOsState`) and they have the neat little feature that they will also enforce Chinese at boot but they're **not** for the *CountrySpecific editions.
+
+These keys are as follows:
+ - Tencent:
+    - `D7MXN-HGMTK-3DY7V-T9PTM-KD8DC` (RTM Core Retail)
+    - `DYYRT-NY9VP-4CB2F-8VC7H-DRTKR` (RTM Professional Retail)
+ - Qihoo:
+    - `WCBQD-VN8PB-FH2RR-WPFCX-3RTKM` (RTM Core Retail)
+    - `X9NV3-MCH4F-M3G24-2PKR2-BTDT3` (RTM Professional Retail)
+
+Again, installing these will make your install BSOD on boot if appropriate licenses are present.
