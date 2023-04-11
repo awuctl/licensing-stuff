@@ -108,8 +108,9 @@ if __name__ == '__main__':
     ALG2009 = 'msft:rm/algorithm/pkey/2009'
 
     p = argparse.ArgumentParser()
-    p.add_argument('pkeyconfig', type=argparse.FileType('r', encoding='utf-8'))
+    p.add_argument('pkeyconfig', type=argparse.FileType('r', encoding='utf-8'), help='pkeyconfig.xrm-ms file to search through')
     p.add_argument('substring', type=str, nargs='?', default='', help='Substring to look for in the edition name')
+    p.add_argument('--ranges', action='store_true', default=False, help='If specified, print all ranges for groups' )
 
     args = p.parse_args()
 
@@ -119,4 +120,9 @@ if __name__ == '__main__':
     for c in c2k9:
         if args.substring.lower() in c.desc.lower():
             print(f'[{c.group_id}]: "{c.desc}" - {c.edition_id}')
+            if args.ranges:
+                ranges = pkc.ranges_for_config(c)
+                for r in ranges:
+                    print(f' - {r.part_number}: {r.start}->{r.end}')
+                print()
     
