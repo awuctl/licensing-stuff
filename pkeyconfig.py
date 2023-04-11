@@ -100,3 +100,23 @@ class PKeyConfig:
             self.ranges_for_group(group),
             self.pubkey_for_group(group)
         )
+
+if __name__ == '__main__':
+    import argparse
+    import xml.etree.ElementTree as ET
+
+    ALG2009 = 'msft:rm/algorithm/pkey/2009'
+
+    p = argparse.ArgumentParser()
+    p.add_argument('pkeyconfig', type=argparse.FileType('r', encoding='utf-8'))
+    p.add_argument('substring', type=str, nargs='?', default='', help='Substring to look for in the edition name')
+
+    args = p.parse_args()
+
+    pkc = PKeyConfig(ET.fromstring(args.pkeyconfig.read()))
+    c2k9 = filter(lambda x: pkc.pubkey_for_group(x.group_id).algorithm == ALG2009 and x.group_id != 999999, pkc.configs)
+
+    for c in c2k9:
+        if args.substring.lower() in c.desc.lower():
+            print(f'[{c.group_id}]: "{c.desc}" - {c.edition_id}')
+    
