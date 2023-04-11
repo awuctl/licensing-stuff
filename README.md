@@ -2,6 +2,12 @@
 
 This is a bunch of tools I've used for some time to do morally questionable stuff to Windows Licensing. I don't really have a reason to use them anymore so I hope someone else can have some fun.
 
+## How do I use this?
+
+If you just want to make a product key and don't want to read too much code, go [here](docs/how-to-use.md). 
+
+All tools support the `--help` option, you can read it for a bit of context on the parameters.
+
 ## Tools
 
 ### keycutter.py
