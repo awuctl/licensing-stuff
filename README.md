@@ -8,7 +8,7 @@ This is a bunch of tools I've used for some time to do morally questionable stuf
 
 This contains an implementation of the "`msft:rm/algorithm/pkey/2009`" product key algorithm. The tool gives you an API and a commandline tool to encode and decode product keys or find ones matching a specified template. The template function could be written to allow for an **almost** arbitrary key but I didn't have any use for it other than a few funny sets of keys so I never bothered.
 
-A bit of info about product keys [here](product-keys.md).
+A bit of info about product keys [here](docs/product-keys.md).
 
 ### pkeyconfig.py
 
