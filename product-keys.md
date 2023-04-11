@@ -87,7 +87,7 @@ A few example funny keys:
 
 ## Fun things
 
-### _CountrySpecific Editions
+### Partner keys / _CountrySpecific Editions
 
 These fun editions of Windows have a neat little "feature" that locks them to a specific (Chinese) language pack. Installing a Pro-/CoreCountrySpecific key will effectively brick your device if the appropriate licenses for it are present in the system. This is also the case with so-called "partner keys".
 
@@ -104,3 +104,14 @@ These keys are as follows:
     - nothing interesting.
 
 Again, installing these will make your install BSOD on boot if appropriate licenses are present.
+
+Here are sample policy values associated with these keys:
+```xml
+<sl:policyInt name="Security-SPP-Reserved-Store-Token-Required" attributes="override-only">0</sl:policyInt>
+<sl:policyInt name="Kernel-MUI-Number-Allowed" attributes="reboot-required, override-only">1</sl:policyInt>
+<sl:policyInt name="Internet-Browser-License-LicensedPartnerID" attributes="override-only">1</sl:policyInt>
+<sl:policyStr name="Security-SPP-Reserved-Windows-Version-V2" attributes="override-only">10.0</sl:policyStr>
+<sl:policyStr name="Kernel-MUI-Language-Allowed" attributes="reboot-required, override-only">zh-TW;zh-CN;zh-HK</sl:policyStr>
+<sl:policyInt name="Security-SPP-WriteWauMarker">1</sl:policyInt>
+<sl:policyStr name="Security-SPP-Reserved-Family" attributes="override-only">Professional</sl:policyStr>
+```
