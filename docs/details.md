@@ -16,13 +16,13 @@ You will see many product keys just laying around on the [internet](https://mass
 
 These serve no purpose other than to inform the operating system what edition it is or (by installing it) that it should change into another edition or use a different activation channel (Volume/Retail). Remember that changing editions doesn't necessarily imply an upgrade (like from Home to Pro).
 
-They are taken from Microsoft ([KMS client keys](https://learn.microsoft.com/en-us/windows-server/get-started/kms-client-activation-keys)), [product.ini](glossary#productini) and from a few [executables](glossary#pkeyhelperdll--gatherosstateexe--setupcoredll-keys).
+They are taken from Microsoft ([KMS client keys](https://learn.microsoft.com/en-us/windows-server/get-started/kms-client-activation-keys)), [product.ini](glossary.md#productini) and from a few [executables](glossary.md#pkeyhelperdll--gatherosstateexe--setupcoredll-keys).
 
 For the purposes of your own sanity, think of all keys keycutter makes as generic.
 
 ## How does a product key work?
 
-When you install a product key (as in run `slmgr.vbs -ipk [key]`) it's decoded into a few values (more on which in the keycutter source) and a few actions can be taken on what they are. You can read up on what these values are [here](product-keys#structure). Here's a more detailed explanation of what they actually are/do.
+When you install a product key (as in run `slmgr.vbs -ipk [key]`) it's decoded into a few values (more on which in the keycutter source) and a few actions can be taken on what they are. You can read up on what these values are [here](product-keys.md#structure). Here's a more detailed explanation of what they actually are/do.
 
 ### Structure
 
@@ -36,7 +36,7 @@ This value specifies what product the key is actually for. This will be things l
  - `Office16_HomeBusinessPipcR_PIN`
  - `Visual Studio 2022 RTM  Perpetual All Retail`
 
-Generally this will mean what edition of the product the key is for and by which [channel](glossary#product-key-channel) it activates.
+Generally this will mean what edition of the product the key is for and by which [channel](glossary.md#product-key-channel) it activates.
 
 #### Serial
 
@@ -56,7 +56,7 @@ This determines whether the key is an upgrade channel key or not. This value doe
 
 #### Extra bit
 
-This is an artifact of the encoding, not an actual field. You can encode a tiny bit beyond the specified fields because log2(24^24 * 25) > 114. This can get you twin keys described [here](product-keys#twin-keys).
+This is an artifact of the encoding, not an actual field. You can encode a tiny bit beyond the specified fields because log2(24^24 * 25) > 114. This can get you twin keys described [here](product-keys.md#twin-keys).
 
 ### Installation
 
@@ -114,7 +114,7 @@ The most interesting value here, ignoring the actual range bounds, is the part n
 Paired with the Configuration this gives you precisely what the key is for and based on these the software can install appropriate licenses for your key. Ultimately it's more important what the range points at, though it is most often exactly what the Configuration says with not much more to add other than the part number.
 
 Having said that, there are a few ranges that add a lot more meaning to what the keys actually do:
- - [Partner keys](product-keys#partner-keys--_countryspecific-editions)
+ - [Partner keys](product-keys.md#partner-keys--_countryspecific-editions)
  - Old Pro Education
  - […]
 
